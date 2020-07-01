@@ -20,6 +20,7 @@ Source Code for the Animal Crossing New Horizons Bot I created that tweets out v
 #### Test Run
 To test the program's functionality, first, comment out the Twitter Status Update Code in each method and replace the content of the tweet onto a `System.out.println` message. Once it has been ensured that the program works as intended, Revert the code that was commented out and run the program in the IDE. 
 - The program automatically retrieves the user's calendar information from the system and as such, the program should run without any user input.
+- When testing, make sure to change the File Locations for all files in the program to the respective files on your computer and in the program folder. Currently, all are notated with `C:\AnyImageDownloadLocation` 
 #### Deployment
 - To deploy this program, one can host their code on a virtual hosting platform or on a Raspberry Pi, however, I decided to create a JAR file of my program and then run a task on Windows Task Scheduler that executed the program at 10:00 AM every day, ensuring consistent tweets without having to manually run the program each day or having to pay to host my software online
 ### Authors

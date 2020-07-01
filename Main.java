@@ -192,7 +192,7 @@ public class Main {
                     }
                     if (k==0){
                         creatureTweets[j][i][k]= creatureTweets[j][i][k] + "! It is "+ creatureCharacteristics[j][i][4].toLowerCase() + " and can be found "+creatureCharacteristics[j][i][3].toLowerCase() + creatureCharacteristics[j][i][2]
-                                +". It can be sold for "+creatureCharacteristics[j][i][6]+ " bells"+creatureCharacteristics[j][i][5]+" #Animal Crossing #NewHoriozns";
+                                +". It can be sold for "+creatureCharacteristics[j][i][6]+ " bells"+creatureCharacteristics[j][i][5]+" #AnimalCrossing #NewHorizons";
                     } else{
                         creatureTweets[j][i][k] = creatureTweets[j][i][k] + "! Remember to catch one if you haven't already! #AnimalCrossing #NewHorizons";
                     }

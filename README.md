@@ -38,6 +38,7 @@ To test the program's functionality, first, comment out the Twitter Status Updat
 - I learned how to use the resources at my disposal to find answers to problems I was having, whether that be through Documentation, Stack Overflow or other methods
 - I learned how to work with Github
 - I learned how to work with errors and exceptions as well as the OAuth process
+- I learned to work with sorting algorithms and search libraries, specifically, bubble sort and binary search algorithms
 ### Development
 - The software is no longer in development, however, if errors arise in its usage, I may go and update errors (although I'd say it's pretty bug-free, hopefully)
 ### Acknowledgements
@@ -49,6 +50,7 @@ To test the program's functionality, first, comment out the Twitter Status Updat
 - Thanks to [Alex] (https://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java) for his code which was used to download the images from the API
 - Thanks to [Alexis Lours](https://github.com/alexislours/ACNHAPI) for creating and upkeeping the Animal Crossing New Horizons Database.
 - Thanks to Rita Andrighetti from Bayview Secondary School and their entire ICS department for their ICS3U lessons on File I/O
+- Thanks to Richard Chu & Rita Andrighetti from Bayview Secondary School for their ICS3U lessons on Bubble Sort
 - Thanks to the [Twitter4j team](http://twitter4j.org/en/configuration.html) for their work in creating the Twitter4j library and in documenting it, where code snippets relating to the Twitter Authentication Process were obtained from
 - Thanks to [Jesse English](https://groups.google.com/forum/#!topic/twitter4j/EqUg5R-nFgQ) for their response in the linked forum, which I used in the code handling the Twitter Authentication
 - Thanks to [Yasuke](https://groups.google.com/forum/#!searchin/twitter4j/in_reply_to_status_id/twitter4j/8n6lweif9gk/EAR58xKs_PoJ.html) for their response in the linked forum, which I used for the tweeting process
@@ -57,4 +59,6 @@ To test the program's functionality, first, comment out the Twitter Status Updat
 - Thanks to [this Codota thread](https://www.codota.com/code/java/methods/twitter4j.StatusUpdate/%3Cinit%3E) in helping me develop a method to tweet with images in my program
 - Thanks to [All participating in this Stack Overflow thread](https://stackoverflow.com/questions/28218761/upload-image-twitter4j) in also helping me with the code required to tweet with images
 - Thanks to [Franzanaz](https://imgur.com/gallery/PX3xHx2) on Imgur for their Animal Crossing New Horizons Leaf Pattern which I repurposed to build images for the tweets
+- Thanks to [Eran](https://stackoverflow.com/questions/29193539/java-arrays-binary-search-multiple-matches) for their code to find multiple matches from a binary search 
+- Thanks to Oracle for their Java Documentation which was used extensively in the project
 - All intellectual property associated with Animal Crossing New Horizons belongs to Nintendo

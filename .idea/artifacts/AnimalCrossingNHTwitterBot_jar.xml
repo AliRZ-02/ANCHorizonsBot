@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="AnimalCrossingNHTwitterBot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AnimalCrossingNHTwitterBot_jar</output-path>
+    <root id="archive" name="AnimalCrossingNHTwitterBot.jar">
+      <element id="module-output" name="AnimalCrossingNHTwitterBot" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/Installers/twitter4j-4.0.7/lib/twitter4j-async-4.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/Installers/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/Installers/twitter4j-4.0.7/lib/twitter4j-examples-4.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/Installers/twitter4j-4.0.7/lib/twitter4j-stream-4.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

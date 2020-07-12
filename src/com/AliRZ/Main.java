@@ -4,7 +4,7 @@ Project: ACNHorizonsBot: A Twitter Bot focused on delivering Tweets about Villag
 Github Repository: https://github.com/AliRZ-02/ANCHorizonsBot
 Creation Date: June 2020
 LICENSE: This project is licensed through the GNU General Public License v3.0
-Last Modified: July 1 2020
+Last Modified: July 12, 2020
 Created using Java SE 14, Twitter4j 4.07 & GSON 2.8.6
 */
 
@@ -15,6 +15,7 @@ import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
@@ -22,14 +23,17 @@ import java.util.Scanner;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import static java.util.Arrays.binarySearch;
+
 public class Main {
     public static void main(String[] args) throws Exception{
         // The main function is used as a calling ground for the required methods. The critter tweets are sent first, followed by the villager tweets and then finally a verification method
         // A calendar is created here which will be used throughout many different methods
         Calendar botCalendar = Calendar.getInstance();
         int [] currentDate = {(botCalendar.get(Calendar.YEAR)),(botCalendar.get(Calendar.MONTH)),(botCalendar.get(Calendar.DAY_OF_MONTH)), (botCalendar.get(Calendar.HOUR_OF_DAY)), (botCalendar.get(Calendar.MINUTE)), (botCalendar.get(Calendar.SECOND))};
-        if (currentDate[2] == 1){
+        if ((currentDate[2] == 1) || (currentDate[2] == 22)){
             creatureTweetProcessing(currentDate, botCalendar);
+            seaCreatureTweetProcessing(currentDate);
         }
         villagerTweetProcessing(botCalendar, currentDate);
         tweetVerification(currentDate);
@@ -334,6 +338,283 @@ public class Main {
             }
         }
     }
+    public static void seaCreatureTweetProcessing(int currentDate []) throws Exception{
+        // The following variables and array have been created to aid in the data gathering process
+        String seaCreatureIntention;
+        String hemisphere = "Northern Hemisphere";
+        String [][] seaCreatureCharacteristics = new String [40][7]; // The data gathered from the API is automatically parsed into an array based on the characteristics of the critter
+        String [] seaCreatureTweets = new String [44]; // Tweets are stored in this array
+        String [] tempTweetsArray = new String[44];
+        int [] seaCreatureIncomingMonthsNorth = new int [44];
+        int [] seaCreatureOutgoingMonthsNorth = new int [44];
+        int [] seaCreatureIncomingMonthsExceptionalNorth = new int [40];
+        int [] seaCreatureOutgoingMonthsExceptionalNorth = new int [40];
+        int [] seaCreatureIncomingMonthsSouth = new int [44];
+        int [] seaCreatureOutgoingMonthsSouth = new int [44];
+        int [] seaCreatureIncomingMonthsExceptionalSouth = new int [40];
+        int [] seaCreatureOutgoingMonthsExceptionalSouth = new int [40];
+        int [] tempSortingArray= new int [44];
+        int tweetCounter =0;
+        int newArrayCounter =0;
+
+        if(currentDate[2] == 1){
+            seaCreatureIntention = "Joining us";
+        } else{
+            seaCreatureIntention = "Leaving us after";
+        }
+
+        for (int j=0; j<40; j++) {
+            /*
+                - The following section used to access the API and parse the JSON file was modified from the website: https://devqa.io/how-to-parse-json-in-java/
+                - The Arrays used have the for loop counters, and so they may be difficult to decipher
+                - For the current for loop, i represents the Species' ID. There are 40 unique creatures and so the for loop is used to access the API and parse the JSON for each critter
+                - Additionally, the third dimension of the Array contains the 7 critter characteristics read from the API
+                */
+            String creatureURL = "https://acnhapi.com/v1/sea/" + (j+1);
+            String creatureJson = new Scanner(new URL(creatureURL).openStream(), "UTF-8").useDelimiter("\\A").next();
+            JsonObject jsonObject = new JsonParser().parse(creatureJson).getAsJsonObject();
+
+            seaCreatureCharacteristics[j][0] = jsonObject.getAsJsonObject("name").get("name-USen").getAsString();
+            seaCreatureCharacteristics[j][1] = jsonObject.getAsJsonObject("availability").get("month-northern").getAsString();
+            seaCreatureCharacteristics[j][2] = jsonObject.getAsJsonObject("availability").get("month-southern").getAsString();
+            seaCreatureCharacteristics[j][3] = jsonObject.getAsJsonObject("availability").get("time").getAsString();
+            seaCreatureCharacteristics[j][4] = jsonObject.get("speed").getAsString();
+            seaCreatureCharacteristics[j][5] = jsonObject.get("shadow").getAsString();
+            seaCreatureCharacteristics[j][6] = jsonObject.get("price").getAsString();
+
+
+            // The following segment is used to clear logical errors with the JSON data, such as pluralization, errors in data values among others
+
+            if (seaCreatureCharacteristics[j][0].substring(seaCreatureCharacteristics[j][0].length()-1).equals("s")){
+                if (seaCreatureCharacteristics[j][0].toLowerCase().equals("chambered nautilus")){
+                    seaCreatureCharacteristics[j][0] = "chambered nautili";
+                } else if (seaCreatureCharacteristics[j][0].toLowerCase().equals("octopus")){
+                    seaCreatureCharacteristics[j][0] = "octopi";
+                } else if (seaCreatureCharacteristics[j][0].toLowerCase().equals("umbrella octopus")){
+                    seaCreatureCharacteristics[j][0] = "umbrella octopi";
+                }
+            }else {
+                if (seaCreatureCharacteristics[j][0].toLowerCase().equals("moon jellyfish")){
+                    seaCreatureCharacteristics[j][0] = "moon jellyfishes";
+                }else {
+                    seaCreatureCharacteristics[j][0] = seaCreatureCharacteristics[j][0] + "s";
+                }
+            }
+            if (seaCreatureCharacteristics[j][0].toLowerCase().equals("gigas giant clams")){
+                seaCreatureCharacteristics[j][1] = "5-9";
+            }
+            if (seaCreatureCharacteristics[j][1].equals("")) {
+                seaCreatureCharacteristics[j][1] = "0-0";
+                seaCreatureCharacteristics[j][2] = "0-0";
+            }
+            if (seaCreatureCharacteristics[j][3].equals("")){
+                seaCreatureCharacteristics[j][3] = " at all times";
+            }else{
+                seaCreatureCharacteristics[j][3] = " between " + seaCreatureCharacteristics[j][3];
+            }
+
+            if (seaCreatureCharacteristics[j][4].toLowerCase().equals("medium")){
+                seaCreatureCharacteristics[j][4] = "moderately fast";
+            }
+
+            if (seaCreatureCharacteristics[j][5].toLowerCase().equals("smallest")){
+                seaCreatureCharacteristics[j][5] = "tiny";
+            }else if (seaCreatureCharacteristics[j][5].toLowerCase().equals("largest")){
+                seaCreatureCharacteristics[j][5] = "huge";
+            }
+
+            // The follwing code creates a Tweet string and adjusts it based on the date
+            // Process to capitalize was modified from 'Jorgesys' response to this stack overflow thread
+            // :https://stackoverflow.com/questions/3904579/how-to-capitalize-the-first-letter-of-a-string-in-java
+
+            seaCreatureTweets[j] = "<"+seaCreatureCharacteristics[j][1] + " :" + seaCreatureCharacteristics[j][2] + " >" + seaCreatureIntention + " this month are the "
+                    + seaCreatureCharacteristics[j][0].substring(0,1).toUpperCase() +seaCreatureCharacteristics[j][0].substring(1);
+
+            if (currentDate[2] == 1){
+                seaCreatureTweets[j] = seaCreatureTweets[j] + "! They are " + seaCreatureCharacteristics[j][4].toLowerCase()+" creatures with a " + seaCreatureCharacteristics[j][5].toLowerCase()+ " shadow. They can be " +
+                        "found"+seaCreatureCharacteristics[j][3] + " and can be sold for " + seaCreatureCharacteristics[j][6] + " bells. #AnimalCrossing #NewHorizons";
+            }else{
+                seaCreatureTweets[j] = seaCreatureTweets[j] + "! Remember to catch one if you haven't already! #AnimalCrossing #NewHorizons" + " |"+(j+1);
+            }
+
+            /*
+            - The following section is used to find the month data for each creature
+            - A temporary tweet array is created to help restore tweets if they have been modified from the originals
+             */
+            tempTweetsArray[j] = seaCreatureTweets[j];
+            seaCreatureIncomingMonthsNorth[j] = Integer.parseInt(seaCreatureTweets[j].substring(1,seaCreatureTweets[j].indexOf('-')));
+            seaCreatureOutgoingMonthsNorth[j] = Integer.parseInt(seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('-')+1,seaCreatureTweets[j].indexOf(' ')));
+
+            if ((seaCreatureTweets[j].indexOf('&') != -1) && (j!= 34)){ // The additional condition is for logistical reasons as an '&' appears in the timing slot of Sea Creature #35 whereas for all others it only appears in the months list
+                seaCreatureTweets[j] = seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('&')+2);
+                seaCreatureIncomingMonthsExceptionalNorth[j] = Integer.parseInt(seaCreatureTweets[j].substring(0,seaCreatureTweets[j].indexOf('-')));
+                seaCreatureOutgoingMonthsExceptionalNorth[j] = Integer.parseInt(seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('-')+1,seaCreatureTweets[j].indexOf(' ')));
+            }
+
+            seaCreatureTweets[j] = seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf(":"));
+            seaCreatureIncomingMonthsSouth[j] = Integer.parseInt(seaCreatureTweets[j].substring(1,seaCreatureTweets[j].indexOf('-')));
+            seaCreatureOutgoingMonthsSouth[j] = Integer.parseInt(seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('-')+1,seaCreatureTweets[j].indexOf(' ')));
+
+            if ((seaCreatureTweets[j].indexOf('&') != -1) && (j!= 34)){
+                seaCreatureTweets[j] = seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('&')+2);
+                seaCreatureIncomingMonthsExceptionalSouth[j] = Integer.parseInt(seaCreatureTweets[j].substring(0,seaCreatureTweets[j].indexOf('-')));
+                seaCreatureOutgoingMonthsExceptionalSouth[j] = Integer.parseInt(seaCreatureTweets[j].substring(seaCreatureTweets[j].indexOf('-')+1,seaCreatureTweets[j].indexOf(' ')));
+            }
+
+            seaCreatureTweets[j] = tempTweetsArray[j];
+
+            // Creatures with two different schedules had their second appearance added to a new array
+            if ((seaCreatureTweets[j].indexOf('&') != -1) && (j!= 34)){
+                seaCreatureIncomingMonthsNorth[40 + newArrayCounter] = seaCreatureIncomingMonthsExceptionalNorth[j];
+                seaCreatureIncomingMonthsSouth[40 + newArrayCounter] = seaCreatureIncomingMonthsExceptionalSouth[j];
+                seaCreatureOutgoingMonthsNorth[40 + newArrayCounter] = seaCreatureOutgoingMonthsExceptionalNorth[j];
+                seaCreatureOutgoingMonthsSouth[40 + newArrayCounter] = seaCreatureOutgoingMonthsExceptionalSouth[j];
+                seaCreatureTweets[40 + newArrayCounter] = seaCreatureTweets[j];
+                newArrayCounter = newArrayCounter +1;
+            }
+        }
+
+        // This restores the original tweet string after any modifications it went through
+        for (int i = 0; i<44; i++){
+            tempTweetsArray[i] = seaCreatureTweets[i];
+        }
+
+        /*
+        - Depending on the date, the data is sorted based on the monthly data needed for said date (i.e. the 'leaving' months are needed on the 22nd of the month, which the data will be sorted by)
+        - The data is fed into a binary sort algorithm to improve program run times and efficiency
+         */
+
+
+        if (currentDate[2] == 1){
+            for (int i =0; i < 44; i++){
+                tempSortingArray[i] = seaCreatureIncomingMonthsNorth[i];
+            }
+            seaCreatureBinarySearchAndTweet(tempSortingArray, seaCreatureTweets, currentDate, tweetCounter, hemisphere);
+            System.out.println("--");
+            for (int i =0; i < 44; i++){
+                seaCreatureTweets[i] = tempTweetsArray[i];
+            }
+
+            tweetCounter = 0;
+            hemisphere = "Southern Hemisphere";
+
+            for (int j =0; j < 44; j++){
+                tempSortingArray[j] = seaCreatureIncomingMonthsSouth[j];
+            }
+            seaCreatureBinarySearchAndTweet(tempSortingArray, seaCreatureTweets, currentDate, tweetCounter, hemisphere);
+            System.out.println("--");
+            for (int i =0; i < 44; i++){
+                seaCreatureTweets[i] = tempTweetsArray[i];
+            }
+        }else if (currentDate[2] == 22){
+            for (int k =0; k < 44; k++){
+                tempSortingArray[k] = seaCreatureOutgoingMonthsNorth[k];
+            }
+            seaCreatureBinarySearchAndTweet(tempSortingArray, seaCreatureTweets, currentDate, tweetCounter, hemisphere);
+            System.out.println("--");
+            for (int i =0; i < 44; i++){
+                seaCreatureTweets[i] = tempTweetsArray[i];
+            }
+
+            tweetCounter = 0;
+            hemisphere = "Southern Hemisphere";
+
+            for (int l =0; l < 44; l++){
+                tempSortingArray[l] = seaCreatureOutgoingMonthsSouth[l];
+            }
+            seaCreatureBinarySearchAndTweet(tempSortingArray, seaCreatureTweets, currentDate, tweetCounter, hemisphere);
+            for (int i =0; i < 44; i++){
+                seaCreatureTweets[i] = tempTweetsArray[i];
+            }
+        }
+    }
+    public static void seaCreatureBinarySearchAndTweet(int [] tempSortingArray, String [] seaCreatureTweets, int [] currentDate, int tweetcounter, String hemisphere) throws Exception{
+        bubbleSort(tempSortingArray, seaCreatureTweets);
+        /*
+        - The binary sort algorithm used here was gotten from the Java Arrays library (https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#binarySearch(int[],%20int)), with the code for finding additional cases taken from Eran's response from
+        the following StackOverflow thread: https://stackoverflow.com/questions/29193539/java-arrays-binary-search-multiple-matches
+         */
+        int index = Arrays.binarySearch (tempSortingArray, currentDate[1]+1);
+        int lowerBound = index;
+        int upperBound = index;
+        String [] creatureIntention = {"Joining us ", "Leaving us after "};
+        int intentionCount =0;
+        while (true){
+            try{
+                if (index >= 0) {
+                    while ((lowerBound > 0) && (tempSortingArray[lowerBound-1] == currentDate[1]+1)){
+                        lowerBound--;
+                    }
+                    while ((upperBound < tempSortingArray.length - 1) && (tempSortingArray[upperBound+1] == currentDate[1]+1)){
+                        upperBound++;
+                    }
+                }
+                break;
+            }catch(ArrayIndexOutOfBoundsException e){
+                System.out.println(e);
+            }
+        }
+        for (int i = lowerBound; i < upperBound+1; i++) {
+            while (true){
+                try{
+                    int imageID = Integer.parseInt(seaCreatureTweets[i].substring(seaCreatureTweets[i].indexOf('|')+1));
+                    seaCreatureTweets[i] =seaCreatureTweets[i].substring(0,seaCreatureTweets[i].indexOf('|'));
+                    File attachedImage = new File("C:\\AnyImageDownloadLocation");
+                    tweetcounter +=1;
+                    if (tweetcounter == 1){
+                        if (hemisphere == "Northern Hemisphere"){
+                            intentionCount =0;
+                            File starterImage = new File ("C:\\AnyImageDownloadLocation");
+                            initialTweet(creatureIntention, intentionCount,starterImage, hemisphere);
+                            System.out.println("Initial Tweet - North: ");
+                            System.out.println(tweetcounter);
+                        }
+                        else{
+                            intentionCount = 1;
+                            File starterImage = new File ("C:\\AnyImageDownloadLocation");
+                            initialTweet(creatureIntention, intentionCount,starterImage, hemisphere);
+                            System.out.println("Initial Tweet - South: ");
+                            System.out.println(tweetcounter);
+                        }
+                         tweetReplies(seaCreatureTweets[i], attachedImage, currentDate);
+                        System.out.println("Complemetary Tweet: "+seaCreatureTweets[i]);
+                    } else{
+                        tweetReplies(seaCreatureTweets[i], attachedImage, currentDate);
+                        System.out.println("Complementary Tweet: "+seaCreatureTweets[i]);
+                        System.out.println(tweetcounter);
+                    }
+                    break;
+                }catch(ArrayIndexOutOfBoundsException e){
+                    System.out.println("No new Sea creatures this month");
+                    break;
+                }
+            }
+        }
+    }
+    public static void bubbleSort (int [] tempSortingArray, String [] seaCreatureTweets){
+        /*
+        - The Bubble Sort Code was modified from the Bubble Sort Pseudo code from Rita Andrighetti's presentation 'Bubble Sort V2' for the ICS3U class. The code itself was modified from
+        Richard Chu's Bubble Sort class lesson in Bayview Secondary School's ICS3U class in the second semester of the 2017-2018 school year.
+         */
+        int max = seaCreatureTweets.length;
+        int last;
+        int temp;
+        String tempTweet;
+        for (int i =0; i < max-1; i++){
+            last = max-i;
+            for (int j=0; j< last-1; j++){
+                if (tempSortingArray[j] >= tempSortingArray[j+1]){
+                    temp = tempSortingArray[j];
+                    tempSortingArray[j] = tempSortingArray[j+1];
+                    tempSortingArray[j+1] = temp;
+
+                    tempTweet = seaCreatureTweets[j];
+                    seaCreatureTweets[j] = seaCreatureTweets[j+1];
+                    seaCreatureTweets[j+1] = tempTweet;
+                }
+            }
+        }
+    }
     public static Twitter twitterAuthentication () throws IOException {
         // The following File Input code was modified from the Bayview Secondary School ICS3U class presentation "2:Reading Files" by Rita Andrighetti
         File twitterAuthentication = new File ("C:\\AnyImageDownloadLocation");
@@ -366,7 +647,7 @@ public class Main {
         currentDate[5] = verificationClock.get(Calendar.SECOND);
         String currentTime = currentDate[3]+":"+currentDate[4]+":"+currentDate[5];
         PrintWriter tweetVerification = new PrintWriter(new FileWriter("C:\\AnyImageDownloadLocation", true));
-        tweetVerification.println("Tweet Authenticated. The tweet for "+ (currentDate[1]+1)+"/"+currentDate[2]+"/"+currentDate[0]+" has been sent. Thank You! This message was sent at: "+currentTime);
+        tweetVerification.println("Tweet Authenticated. The tweet(s) for "+ (currentDate[1]+1)+"/"+currentDate[2]+"/"+currentDate[0]+" has/have been sent. Thank You! This message was sent at: "+currentTime);
         tweetVerification.close();
     }
     public static void tweetMethod(String tweet, File attachedImage, int [] currentDate) throws Exception{

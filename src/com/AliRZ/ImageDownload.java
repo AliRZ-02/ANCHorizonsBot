@@ -19,6 +19,7 @@ public class ImageDownload {
             - The 'J' variable represents the type of critter (0 for Fish and 1 for Bugs) while the 'I' variable represents the Critter ID between 1 & 80
             - A similar process occurs in the last for loop, where the villager images are downloaded
          */
+        /*
         for (int j =0; j<2; j++) {
             for(int i=1; i<81;i++){
                 // The following try-catch block with the code for downloading of images from an external URL was modified from 'Alex's' response on this Stack Overflow thread: https://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java
@@ -35,6 +36,16 @@ public class ImageDownload {
             try(InputStream inputStream = new URL("https://acnhapi.com/v1/images/villagers/"+i).openStream()){
                 Files.copy(inputStream, Paths.get("C:\\AnyImageDownloadLocation"));
                 System.out.println("Successfully downloaded Villager # "+i);
+            }catch(MalformedURLException e){
+                System.out.println("Error. File not found!");
+            }
+        }
+        */
+        for (int i =1; i<41; i++){
+            // The following try-catch block with the code for downloading of images from an external URL was modified from 'Alex's' response on this Stack Overflow thread: https://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java
+            try(InputStream inputStream = new URL("https://acnhapi.com/v1/images/sea/"+i).openStream()){
+                Files.copy(inputStream, Paths.get("C:\\AnyImageDownloadLocation"));
+                System.out.println("Successfully downloaded Sea Creature # "+i);
             }catch(MalformedURLException e){
                 System.out.println("Error. File not found!");
             }

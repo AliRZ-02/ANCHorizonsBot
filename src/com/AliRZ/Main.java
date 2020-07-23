@@ -4,7 +4,7 @@ Project: ACNHorizonsBot: A Twitter Bot focused on delivering Tweets about Villag
 Github Repository: https://github.com/AliRZ-02/ANCHorizonsBot
 Creation Date: June 2020
 LICENSE: This project is licensed through the GNU General Public License v3.0
-Last Modified: July 12, 2020
+Last Modified: July 23, 2020
 Created using Java SE 14, Twitter4j 4.07 & GSON 2.8.6
 */
 
@@ -38,6 +38,7 @@ public class Main {
         villagerTweetProcessing(botCalendar, currentDate);
         tweetVerification(currentDate);
     }
+
     public static void creatureTweetProcessing(int [] currentDate, Calendar botCalendar) throws Exception{
         // The following variables and array have been created to aid in the data gathering process
         String [] creatureType = {"fish","bugs"}; // This array allows for the correct URL to be used when gathering data for either the bugs or the fish
@@ -281,6 +282,7 @@ public class Main {
             }
         }
     }
+
     public static void villagerTweetProcessing(Calendar botCalendar, int[] currentDate) throws Exception{
         String [][] villagerCharacteristics = new String [391][6];
         int [][] villagerBirthdays = new int [391][2];
@@ -338,6 +340,7 @@ public class Main {
             }
         }
     }
+
     public static void seaCreatureTweetProcessing(int currentDate []) throws Exception{
         // The following variables and array have been created to aid in the data gathering process
         String seaCreatureIntention;
@@ -528,6 +531,7 @@ public class Main {
             }
         }
     }
+
     public static void seaCreatureBinarySearchAndTweet(int [] tempSortingArray, String [] seaCreatureTweets, int [] currentDate, int tweetcounter, String hemisphere) throws Exception{
         bubbleSort(tempSortingArray, seaCreatureTweets);
         /*
@@ -561,6 +565,7 @@ public class Main {
                     seaCreatureTweets[i] =seaCreatureTweets[i].substring(0,seaCreatureTweets[i].indexOf('|'));
                     File attachedImage = new File("C:\\AnyImageDownloadLocation");
                     tweetcounter +=1;
+                    seaCreatureTweets[i] = seaCreatureTweets[i].substring(seaCreatureTweets[i].indexOf('>')+1);
                     if (tweetcounter == 1){
                         if (hemisphere == "Northern Hemisphere"){
                             intentionCount =0;
@@ -591,6 +596,7 @@ public class Main {
             }
         }
     }
+
     public static void bubbleSort (int [] tempSortingArray, String [] seaCreatureTweets){
         /*
         - The Bubble Sort Code was modified from the Bubble Sort Pseudo code from Rita Andrighetti's presentation 'Bubble Sort V2' for the ICS3U class. The code itself was modified from
@@ -615,6 +621,7 @@ public class Main {
             }
         }
     }
+
     public static Twitter twitterAuthentication () throws IOException {
         // The following File Input code was modified from the Bayview Secondary School ICS3U class presentation "2:Reading Files" by Rita Andrighetti
         File twitterAuthentication = new File ("C:\\AnyImageDownloadLocation");
@@ -639,6 +646,7 @@ public class Main {
         return twitterBot;
         // The code snippet above was gained from the twitter4j website: http://twitter4j.org/en/configuration.html
     }
+
     public static void tweetVerification(int [] currentDate) throws Exception{
         // The following code was modified from the Bayview Secondary School ICS3U Course Presentation on File IO by Rita Andrighetti
         Calendar verificationClock = Calendar.getInstance();
@@ -650,6 +658,7 @@ public class Main {
         tweetVerification.println("Tweet Authenticated. The tweet(s) for "+ (currentDate[1]+1)+"/"+currentDate[2]+"/"+currentDate[0]+" has/have been sent. Thank You! This message was sent at: "+currentTime);
         tweetVerification.close();
     }
+
     public static void tweetMethod(String tweet, File attachedImage, int [] currentDate) throws Exception{
         /*
         - The code used to tweet the message was adapted from this youtube video by MZ M https://www.youtube.com/watch?v=PPP7_pCO3xI
@@ -670,6 +679,7 @@ public class Main {
             }
         }
     }
+
     public static void tweetReplies(String tweet, File attachedImage, int [] currentDate) throws Exception{
         Twitter twitterBot = twitterAuthentication();
 
@@ -699,6 +709,7 @@ public class Main {
             }
         }
     }
+
     public static void initialTweet(String [] creatureIntention, int i, File starterImage, String hemisphere) throws Exception{
         /*
         - The code used to tweet the message was adapted from this youtube video by MZ M https://www.youtube.com/watch?v=PPP7_pCO3xI

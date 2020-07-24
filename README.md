@@ -1,5 +1,5 @@
 # ANCHorizonsBot
-Source Code for the Animal Crossing New Horizons Bot I created that tweets out villager birthdays and monthly critter information 
+Source Code for the Animal Crossing New Horizons Bot I created that tweets out villager birthdays and monthly critter information. It is viewable at the [ACNHorizons Twitter Page](https://twitter.com/ACNHorizonsBot)
 
 ### Motivation
 - I created this project near the tail end of my senior year in high school to showcase several skills I had picked up with respect to software design and Java programming. The inspiration behind the project was my moderate frustration as I was playing the new Animal Crossing game. The variety of fish and animals available in the game rotate every month and I was having trouble keeping record of what critters were available each month. I decided to create a Twitter bot that would take information from an Animal Crossing New Horizons Database and would tweet it at the beginning of each month. Eventually, I decided to expand the bot's functionality by adding villager birthdays because it was relatively simple to add.

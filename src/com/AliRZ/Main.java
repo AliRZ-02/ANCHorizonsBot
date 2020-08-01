@@ -4,7 +4,7 @@ Project: ACNHorizonsBot: A Twitter Bot focused on delivering Tweets about Villag
 Github Repository: https://github.com/AliRZ-02/ANCHorizonsBot
 Creation Date: June 2020
 LICENSE: This project is licensed through the GNU General Public License v3.0
-Last Modified: July 23, 2020
+Last Modified: August 1, 2020
 Created using Java SE 14, Twitter4j 4.07 & GSON 2.8.6
 */
 
@@ -435,7 +435,7 @@ public class Main {
 
             if (currentDate[2] == 1){
                 seaCreatureTweets[j] = seaCreatureTweets[j] + "! They are " + seaCreatureCharacteristics[j][4].toLowerCase()+" creatures with a " + seaCreatureCharacteristics[j][5].toLowerCase()+ " shadow. They can be " +
-                        "found"+seaCreatureCharacteristics[j][3] + " and can be sold for " + seaCreatureCharacteristics[j][6] + " bells. #AnimalCrossing #NewHorizons";
+                        "found"+seaCreatureCharacteristics[j][3] + " and can be sold for " + seaCreatureCharacteristics[j][6] + " bells. #AnimalCrossing #NewHorizons"+ " |"+(j+1);
             }else{
                 seaCreatureTweets[j] = seaCreatureTweets[j] + "! Remember to catch one if you haven't already! #AnimalCrossing #NewHorizons" + " |"+(j+1);
             }
@@ -538,6 +538,7 @@ public class Main {
         - The binary sort algorithm used here was gotten from the Java Arrays library (https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#binarySearch(int[],%20int)), with the code for finding additional cases taken from Eran's response from
         the following StackOverflow thread: https://stackoverflow.com/questions/29193539/java-arrays-binary-search-multiple-matches
          */
+        tweetcounter = 0;
         int index = Arrays.binarySearch (tempSortingArray, currentDate[1]+1);
         int lowerBound = index;
         int upperBound = index;

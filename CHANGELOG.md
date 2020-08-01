@@ -1,3 +1,6 @@
+# 08/01/2020
+- Updated Main.java to correct an error with the tweets for Sea creatures which wouldn't tweet and would crash the program
+- Corrected error for tweets which wouldn't reply in the correct order
 # 07/24/2020
 - Updated README to include a link to the Twitter Bot's Profile Page
 # 07/23/2020

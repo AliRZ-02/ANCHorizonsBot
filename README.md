@@ -1,4 +1,6 @@
 # ANCHorizonsBot
+![Profile Picture](BotProfilePicture.png)
+
 Source Code for the Animal Crossing New Horizons Bot I created that tweets out villager birthdays and monthly critter information. It is viewable at the [ACNHorizons Twitter Page](https://twitter.com/ACNHorizonsBot)
 
 ### Motivation
@@ -22,7 +24,7 @@ To test the program's functionality, first, comment out the Twitter Status Updat
 - The program automatically retrieves the user's calendar information from the system and as such, the program should run without any user input.
 - When testing, make sure to change the File Locations for all files in the program to the respective files on your computer and in the program folder. Currently, all are notated with `C:\AnyImageDownloadLocation` 
 #### Deployment
-- To deploy this program, one can host their code on a virtual hosting platform or on a Raspberry Pi, however, I decided to create a JAR file of my program and then run a task on Windows Task Scheduler that executed the program at 10:00 AM every day, ensuring consistent tweets without having to manually run the program each day or having to pay to host my software online
+- To deploy this program, one can host their code on a virtual hosting platform or on a Raspberry Pi, however, I decided to create a JAR file of my program and then run a task on Windows Task Scheduler that executed the program at 10:00 AM EST every day, ensuring consistent tweets without having to manually run the program each day or having to pay to host my software online
 ### Authors
 - This bot was developed by myself, [Ali Raza Zaidi](https://twitter.com/Ali_RZ02) 
 ### License
@@ -60,5 +62,6 @@ To test the program's functionality, first, comment out the Twitter Status Updat
 - Thanks to [All participating in this Stack Overflow thread](https://stackoverflow.com/questions/28218761/upload-image-twitter4j) in also helping me with the code required to tweet with images
 - Thanks to [Franzanaz](https://imgur.com/gallery/PX3xHx2) on Imgur for their Animal Crossing New Horizons Leaf Pattern which I repurposed to build images for the tweets
 - Thanks to [Eran](https://stackoverflow.com/questions/29193539/java-arrays-binary-search-multiple-matches) for their code to find multiple matches from a binary search 
+- Thanks to [Rich](https://stackoverflow.com/questions/14494747/add-images-to-readme-md-on-github) for their comment on [resultways](https://stackoverflow.com/questions/14494747/add-images-to-readme-md-on-github) answer to this Stack Overflow thread regarding the addition of images to a README file
 - Thanks to Oracle for their Java Documentation which was used extensively in the project
 - All intellectual property associated with Animal Crossing New Horizons belongs to Nintendo

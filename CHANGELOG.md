@@ -1,3 +1,5 @@
+# 09/05/2020
+- Added Bot Profile Picture to README.MD file
 # 08/01/2020
 - Updated Main.java to correct an error with the tweets for Sea creatures which wouldn't tweet and would crash the program
 - Corrected error for tweets which wouldn't reply in the correct order
